@@ -1,0 +1,73 @@
+//Given a roman numeral, convert it to an integer.
+
+//Example 1:
+
+//Input: s = "III"
+//Output: 3
+//Explanation: III = 3.
+//Example 2:
+
+//Input: s = "LVIII"
+//Output: 58
+//Explanation: L = 50, V= 5, III = 3.
+//Example 3:
+
+//Input: s = "MCMXCIV"
+//Output: 1994
+//Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+class Solution {
+    public int romanToInt(String s) {
+        int sum = 0;
+        HashMap<Character, Integer> myHashMap = new HashMap<>();
+        HashMap<String, Integer> stringHashMap = new HashMap<>();
+        char[] chars = s.toCharArray();
+
+        myHashMap.put('I', 1);
+        myHashMap.put('V', 5);
+        myHashMap.put('X', 10);
+        myHashMap.put('L', 50);
+        myHashMap.put('C', 100);
+        myHashMap.put('D', 500);
+        myHashMap.put('M', 1000);
+
+        stringHashMap.put("IV", 4);
+        stringHashMap.put("IX", 9);
+        stringHashMap.put("XL", 40);
+        stringHashMap.put("XC", 90);
+        stringHashMap.put("CD", 400);
+        stringHashMap.put("CM", 900);
+
+        for(int i = 0; i < chars.length - 1; i++) {
+            int next = i + 1;
+
+            if(chars[i] == 'C') {
+                if (chars[next] == 'M' || chars[next] == 'D') {
+                    sum = sum - myHashMap.get('C');
+                } else {
+                    sum = sum + myHashMap.get('C');
+                }
+            } else if(chars[i] == 'X') {
+                if (chars[next] == 'L' || chars[next] == 'C') {
+                    sum = sum - myHashMap.get('X');
+                } else {
+                    sum = sum + myHashMap.get('X');
+                }
+                
+
+            } else if(chars[i] == 'I') {
+                if (chars[next] == 'V' || chars[next] == 'X') {
+                    sum = sum - myHashMap.get('I');
+                } else {
+                    sum = sum + myHashMap.get('I');
+                }
+ 
+            } else {
+                sum = sum + myHashMap.get(chars[i]);
+            }
+        }
+        sum = sum + myHashMap.get(chars[chars.length - 1]);
+
+        return sum;
+    }
+}
